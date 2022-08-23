@@ -1,0 +1,20 @@
+tableid: "sample-project.sample_dataset1.sample_table"
+
+tablemetrics:
+ - metricname: "row_count"
+   tolerance:
+     more_than: 0.0
+
+fields:
+  - fieldid: "field1"
+    fieldmetrics:
+      - metricname: "nullness_pct"
+        tolerance:
+          less_than_eq: 0.0
+
+  - fieldid: "field2"
+    fieldmetrics:
+      - metricname: "invalid_pct"
+        condition: "field2 is null and field_status = 'SUCCESS'"
+        tolerance:
+          less_than_eq: 0.0

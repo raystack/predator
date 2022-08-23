@@ -1,0 +1,10 @@
+version: v1
+plugins:
+  - name: go
+    out: publisher/proto
+    # appending ",M<path/to/protofile>=<package name in current project after compilation>"
+    # is required for protoc-gen-go to provide what the import path for a given
+    # proto file should be.
+    # This is necessary while importing a proto file foo/a.proto from another
+    # directory, e.g. bar/b.proto
+    opt: paths=source_relative,Modpf/predator/v1beta1/metrics_log.proto=github.com/odpf/predator/publisher/proto/odpf/predator/v1beta1,Modpf/predator/v1beta1/result_log.proto=github.com/odpf/predator/publisher/proto/odpf/predator/v1beta1

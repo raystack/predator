@@ -1,0 +1,12 @@
+FROM alpine
+
+RUN apk update
+RUN apk add curl libc6-compat
+        
+RUN mkdir /etc/predatorcli
+COPY ./dist/predatorcli/linux-amd64/predatorcli /etc/predatorcli
+WORKDIR /etc/predatorcli
+
+RUN ls /etc/predatorcli
+
+CMD /etc/predatorcli/predatorcli ${SUB_COMMAND} -s ${PREDATOR_URL} -u "${BQ_PROJECT}.${BQ_DATASET}.${BQ_TABLE}"
