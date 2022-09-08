@@ -116,7 +116,7 @@ func (m Mode) IsValid() error {
 	case ModeComplete:
 		return nil
 	default:
-		return errors.New(fmt.Sprintf("wrong Mode %s", string(m)))
+		return fmt.Errorf("wrong Mode %s", string(m))
 	}
 }
 

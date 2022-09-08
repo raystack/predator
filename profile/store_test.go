@@ -157,12 +157,14 @@ func TestProfileStore(t *testing.T) {
 
 			store := NewStore(db, "profile_records", sStore)
 			_, err := store.Create(prof)
+			assert.Nil(t, err)
+
 			err = store.Update(updatedProf)
+			assert.Nil(t, err)
 
 			var result profileRecord
 			db.Find(&result)
 
-			assert.Nil(t, err)
 			assert.Equal(t, int64(20), result.TotalRecords)
 		})
 		t.Run("should failed when update profile failed", func(t *testing.T) {
@@ -247,8 +249,9 @@ func TestProfileStore(t *testing.T) {
 			store := NewStore(db, "profile_records", sStore)
 
 			_, err := store.Create(prof)
-			resultProfile, err := store.Get(ID)
+			assert.Nil(t, err)
 
+			resultProfile, err := store.Get(ID)
 			assert.Nil(t, err)
 			assert.Equal(t, prof, resultProfile)
 		})

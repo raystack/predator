@@ -43,7 +43,7 @@ func (d *ProviderFactory) CreateAuditMessage(audit *job.Audit, auditResults []*p
 	resultsPerGroup := auditGroup.ByGroupValue()
 
 	var groups []string
-	for group, _ := range resultsPerGroup {
+	for group := range resultsPerGroup {
 		groups = append(groups, group)
 	}
 

@@ -55,7 +55,7 @@ func TestAuditor(t *testing.T) {
 			metricStore.On("GetMetricsByProfileID", profileID).Return(metrics, nil)
 			defer metricStore.AssertExpectations(t)
 
-			defaultRuleValidator := mockRuleValidator{}
+			defaultRuleValidator := NewMockRuleValidator()
 			defaultRuleValidator.On("Validate", metrics, toleranceSpec.Tolerances).Return(validatedMetrics, nil)
 			defer defaultRuleValidator.AssertExpectations(t)
 
@@ -102,7 +102,7 @@ func TestAuditor(t *testing.T) {
 			metricStore.On("GetMetricsByProfileID", profileID).Return(metrics, nil)
 			defer metricStore.AssertExpectations(t)
 
-			defaultRuleValidator := mockRuleValidator{}
+			defaultRuleValidator := NewMockRuleValidator()
 			defaultRuleValidator.On("Validate", metrics, toleranceSpec.Tolerances).Return(validatedMetrics, nil)
 			defer defaultRuleValidator.AssertExpectations(t)
 
@@ -214,7 +214,7 @@ func TestAuditor(t *testing.T) {
 			metricStore.On("GetMetricsByProfileID", profileID).Return(metrics, nil)
 			defer metricStore.AssertExpectations(t)
 
-			defaultRuleValidator := mockRuleValidator{}
+			defaultRuleValidator := NewMockRuleValidator()
 			validationErr := errors.New("validation error")
 			var validatedMetrics []*protocol.ValidatedMetric
 			defaultRuleValidator.On("Validate", metrics, toleranceSpec.Tolerances).Return(validatedMetrics, validationErr)

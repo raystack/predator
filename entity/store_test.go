@@ -82,7 +82,10 @@ func TestStore(t *testing.T) {
 			entityStore := NewStore(db, "entity_records")
 
 			_, err := entityStore.Save(entity)
+			assert.Nil(t, err)
+
 			_, err = entityStore.Save(updatedEntity)
+			assert.Nil(t, err)
 
 			var record entityRecord
 			db.Find(&record)
@@ -132,9 +135,11 @@ func TestStore(t *testing.T) {
 			entityStore := NewStore(db, "entity_records")
 
 			_, err := entityStore.Save(entity)
-			db.Close()
-			_, err = entityStore.Save(updatedEntity)
+			assert.Nil(t, err)
 
+			db.Close()
+
+			_, err = entityStore.Save(updatedEntity)
 			assert.Error(t, err)
 		})
 	})
@@ -197,8 +202,9 @@ func TestStore(t *testing.T) {
 			entityStore := NewStore(db, "entity_records")
 
 			createdEntity, err := entityStore.Create(entity)
-			result, err := entityStore.Get(createdEntity.ID)
+			assert.Nil(t, err)
 
+			result, err := entityStore.Get(createdEntity.ID)
 			assert.Nil(t, err)
 			assert.Equal(t, entity, removeTime(result))
 		})
@@ -241,8 +247,9 @@ func TestStore(t *testing.T) {
 			entityStore := NewStore(db, "entity_records")
 
 			_, err := entityStore.Create(entity)
-			result, err := entityStore.GetEntityByGitURL(gitURL)
+			assert.Nil(t, err)
 
+			result, err := entityStore.GetEntityByGitURL(gitURL)
 			assert.Nil(t, err)
 			assert.Equal(t, entity, removeTime(result))
 		})
@@ -296,7 +303,10 @@ func TestStore(t *testing.T) {
 			entityStore := NewStore(db, "entity_records")
 
 			_, err := entityStore.Create(initialEntity)
+			assert.Nil(t, err)
+
 			_, err = entityStore.Update(updatedEntity)
+			assert.Nil(t, err)
 
 			result, err := entityStore.Get("sample-entity-1")
 
@@ -346,9 +356,12 @@ func TestStore(t *testing.T) {
 			entityStore := NewStore(db, "entity_records")
 
 			_, err := entityStore.Create(entityA)
-			_, err = entityStore.Create(entityB)
-			result, err := entityStore.GetEntityByProjectID("sample-entity-1-project-1")
+			assert.Nil(t, err)
 
+			_, err = entityStore.Create(entityB)
+			assert.Nil(t, err)
+
+			result, err := entityStore.GetEntityByProjectID("sample-entity-1-project-1")
 			assert.Nil(t, err)
 			assert.Equal(t, entityA, removeTime(result))
 		})

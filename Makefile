@@ -35,3 +35,6 @@ generate-proto:
 	@echo " > generating protobuf from odpf/proton"
 	@buf generate https://github.com/odpf/proton/archive/${PROTON_COMMIT}.zip#strip_components=1 --template buf.gen.yaml --path odpf/predator
 	@echo " > protobuf compilation finished"
+
+lint:
+	golangci-lint run --fix

@@ -783,7 +783,8 @@ func TestFieldProfiler(t *testing.T) {
 				metadataStore.On("GetMetadata", test.Spec.TableID()).Return(test.Spec, nil)
 
 				profiler := New(queryExecutor, metadataStore)
-				profiler.Profile(entry, test.Profile, test.MetricSpecs)
+				_, err := profiler.Profile(entry, test.Profile, test.MetricSpecs)
+				assert.Nil(t, err)
 
 				for i, call := range queryExecutor.Calls {
 					sql := strings.Join(test.Queries[i], " ")

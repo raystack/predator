@@ -2,7 +2,6 @@ package mock
 
 import (
 	"github.com/odpf/predator/protocol"
-	"github.com/odpf/predator/protocol/job"
 	"github.com/odpf/predator/stats"
 	"github.com/stretchr/testify/mock"
 	"time"
@@ -101,18 +100,4 @@ func (m *mockStatBuilder) WithPodName(podName string) stats.ClientBuilder {
 func (m *mockStatBuilder) Build() (stats.Client, error) {
 	args := m.Called()
 	return args.Get(0).(stats.Client), args.Error(1)
-}
-
-type mockObserver struct {
-	mock.Mock
-}
-
-func NewStatObserver() *mockObserver {
-	return &mockObserver{}
-}
-
-func (m *mockObserver) Update(state interface{}) {
-	var p *job.Profile
-	p = state.(*job.Profile)
-	m.Called(p)
 }

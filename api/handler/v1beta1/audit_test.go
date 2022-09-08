@@ -117,7 +117,8 @@ func TestAudit(t *testing.T) {
 			})
 			handler := Audit(auditService, profileService, auditSummaryFactory)
 			handler.ServeHTTP(res, req)
-			json.NewDecoder(res.Body).Decode(&result)
+			err := json.NewDecoder(res.Body).Decode(&result)
+			assert.Nil(t, err)
 
 			assert.Equal(t, expectedResponse, &result)
 			assert.Equal(t, http.StatusOK, res.Code)

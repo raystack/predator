@@ -1,13 +1,13 @@
 package message
 
 import (
-	"github.com/golang/protobuf/ptypes"
 	"github.com/odpf/predator/mock"
 	"github.com/odpf/predator/protocol/job"
 	"github.com/odpf/predator/protocol/meta"
 	"github.com/odpf/predator/protocol/metric"
 	"github.com/odpf/predator/publisher/proto/odpf/predator/v1beta1"
 	"github.com/stretchr/testify/assert"
+	"google.golang.org/protobuf/types/known/timestamppb"
 	"testing"
 	"time"
 )
@@ -148,7 +148,7 @@ func TestProfileKeyProtoBuilder(t *testing.T) {
 	t.Run("Build", func(t *testing.T) {
 		t.Run("should return proto key", func(t *testing.T) {
 			now := time.Now()
-			nowProto, _ := ptypes.TimestampProto(now)
+			nowProto := timestamppb.New(now)
 
 			profileJob := &job.Profile{
 				ID:             profileID,
@@ -185,7 +185,7 @@ func TestProfileValueProtoBuilder(t *testing.T) {
 	t.Run("Get", func(t *testing.T) {
 		t.Run("should return Message", func(t *testing.T) {
 			now := time.Now()
-			nowProto, _ := ptypes.TimestampProto(now)
+			nowProto := timestamppb.New(now)
 
 			profileJob := &job.Profile{
 				ID:             profileID,

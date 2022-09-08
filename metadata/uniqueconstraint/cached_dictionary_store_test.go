@@ -43,11 +43,14 @@ func TestCachedUniqueConstraintSource(t *testing.T) {
 
 				cachedStore := uniqueconstraint.NewCachedDictionaryStore(10, directStore)
 
-				cachedStore.Get()
+				_, err := cachedStore.Get()
+				assert.Nil(t, err)
+
 				time.Sleep(1 * time.Second)
 
 				for i := 1; i <= 30; i++ {
-					cachedStore.Get()
+					_, err := cachedStore.Get()
+					assert.Nil(t, err)
 				}
 			})
 		})

@@ -4,6 +4,7 @@ import (
 	"github.com/gorilla/mux"
 	v1beta1 "github.com/odpf/predator/api/handler/v1beta1"
 	"github.com/odpf/predator/protocol"
+	"log"
 	"net/http"
 	"time"
 )
@@ -81,6 +82,7 @@ func (v *V1Beta1RouteGroup) RegisterHandler(router *mux.Router) {
 		HandlerFunc(
 			func(writer http.ResponseWriter, request *http.Request) {
 				time.Sleep(2 * time.Minute)
-				writer.Write([]byte("pong"))
+				_, err := writer.Write([]byte("pong"))
+				log.Println(err)
 			})
 }

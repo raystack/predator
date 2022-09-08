@@ -27,10 +27,7 @@ func (s *ErrUploadSpecValidation) Error() string {
 
 func IsUploadSpecValidationError(err error) bool {
 	var e *ErrUploadSpecValidation
-	if errors.As(err, &e) {
-		return true
-	}
-	return false
+	return errors.As(err, &e)
 }
 
 //Task is an unit of an operation

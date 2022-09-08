@@ -134,8 +134,7 @@ func generateFromExpression(branch *meta.FieldSpec, spec *meta.TableSpec) *query
 		branchToRoot = append(branch.FromRootPath(), branch)
 	}
 
-	var unnests []*query.Unnest
-	unnests = generateUnnest(branchToRoot)
+	unnests := generateUnnest(branchToRoot)
 
 	fromClause := &query.FromClause{
 		TableID:       spec.TableID(),

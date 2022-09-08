@@ -64,10 +64,16 @@ func (u *UploadFactory) Create(gitRepo *protocol.GitInfo) (protocol.Task, error)
 		destination = NewEntityBasedStore(entity, u.destination)
 		clientBuilder := u.statsClientBuilder.WithEntity(entity)
 		statsClient, err = clientBuilder.Build()
+		if err != nil {
+			return nil, err
+		}
 	} else {
 		source = gitSource
 		destination = u.destination
 		statsClient, err = u.statsClientBuilder.Build()
+		if err != nil {
+			return nil, err
+		}
 	}
 
 	return &Upload{
@@ -161,7 +167,7 @@ func (u *Upload) syncFiles(toBeCreated []string, toBeRemoved []string) error {
 		id := urn
 		g.Go(func() error {
 			if err := u.destination.Delete(id); err != nil {
-				return fmt.Errorf("failed to remove %s spec because:\n%w", urn, err)
+				return fmt.Errorf("failed to remove %s spec because:\n%w", id, err)
 			}
 			return nil
 		})

@@ -142,12 +142,12 @@ func (p *Predator) callGetProfile(profileID string) (*model.ProfileResponse, err
 //GetProfile to call get profile result API
 func (p *Predator) GetProfile(profileID string) (*model.ProfileResponse, error) {
 	timeout := time.After(time.Duration(getProfileTimeoutInSecond) * time.Second)
-	tick := time.Tick(time.Duration(getProfileRetryIntervalInSecond) * time.Second)
+	ticker := time.NewTicker(time.Duration(getProfileRetryIntervalInSecond) * time.Second)
 	for {
 		select {
 		case <-timeout:
 			return nil, errors.New("Get profile time out")
-		case <-tick:
+		case <-ticker.C:
 			profileResponse, err := p.callGetProfile(profileID)
 			if err != nil {
 				return nil, err

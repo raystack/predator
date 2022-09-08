@@ -48,7 +48,8 @@ func TestGetAllEntity(t *testing.T) {
 			handler.ServeHTTP(res, req)
 
 			var result model.ListEntityResponse
-			json.NewDecoder(res.Body).Decode(&result)
+			err := json.NewDecoder(res.Body).Decode(&result)
+			assert.Nil(t, err)
 
 			assert.Equal(t, response, &result)
 			assert.Equal(t, http.StatusOK, res.Code)

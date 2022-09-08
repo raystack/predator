@@ -61,7 +61,8 @@ func TestCreateUpdateEntity(t *testing.T) {
 			handler.ServeHTTP(res, req)
 
 			var result model.CreateUpdateEntityResponse
-			json.NewDecoder(res.Body).Decode(&result)
+			err := json.NewDecoder(res.Body).Decode(&result)
+			assert.Nil(t, err)
 
 			assert.Equal(t, response, &result)
 			assert.Equal(t, http.StatusOK, res.Code)
