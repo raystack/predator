@@ -111,7 +111,7 @@ func StartService(confFile *conf.ConfigFile, version string) {
 		log.Println(err)
 		return
 	}
-	log.Println(fmt.Sprintf("starting predator service %s", version))
+	log.Printf("starting predator service %s", version)
 
 	db, err := newDatabase(config.Database)
 	if err != nil {
