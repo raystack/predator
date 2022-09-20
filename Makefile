@@ -18,6 +18,9 @@ coverage:
 test:
 	go test `go list ./... | grep -v /cmd | grep -v mock` -count 1 -cover -parallel 100
 
+unit-test-ci:
+	go test -count 5 -race -coverprofile coverage.txt -covermode=atomic -timeout 3m -tags=unit_test ./...
+
 migrate:
 	go run ./cmd/migrator/migration.go up
 
