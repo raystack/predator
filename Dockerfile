@@ -1,4 +1,4 @@
-FROM golang:1.14-stretch
+FROM golang:1.18-stretch
 
 RUN mkdir /etc/predator
 COPY out /etc/predator
