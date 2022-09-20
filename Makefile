@@ -12,8 +12,8 @@ run:
 	./predator
 
 coverage:
-	go test `go list ./... | grep -v /cmd | grep -v mock` -count 1 -cover -parallel 100 -coverprofile cover.out > /dev/null
-	go tool cover -func cover.out
+	go test `go list ./... | grep -v /cmd | grep -v mock` -count 1 -cover -parallel 100 -coverprofile coverage.txt > /dev/null
+	go tool cover -func coverage.txt
 
 test:
 	go test `go list ./... | grep -v /cmd | grep -v mock` -count 1 -cover -parallel 100
