@@ -9,7 +9,7 @@ Predator consist of two components:
 
 ### Requirements
 
-* Go v1.14
+* Go v1.18
 * Postgres Instance
 
   ```
