@@ -27,7 +27,8 @@ func TestMultiLogger(t *testing.T) {
 				allLogger := []protocol.StatusLogger{logger1, logger2}
 
 				multiLogger := NewMultiLogger(allLogger)
-				multiLogger.Log(entry, message)
+				err := multiLogger.Log(entry, message)
+				assert.Nil(t, err)
 			})
 			t.Run("should call return error if a logger failed", func(t *testing.T) {
 				entry := protocol.NewEntry()

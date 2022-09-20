@@ -90,9 +90,15 @@ func TestStore_GetLatestStatusByIDandType(t *testing.T) {
 		}
 
 		statusStore := NewStore(db, "status_records")
-		statusStore.Store(statusFirst)
-		statusStore.Store(statusSecond)
-		statusStore.Store(statusThird)
+
+		err := statusStore.Store(statusFirst)
+		assert.Nil(t, err)
+
+		err = statusStore.Store(statusSecond)
+		assert.Nil(t, err)
+
+		err = statusStore.Store(statusThird)
+		assert.Nil(t, err)
 
 		latestStatus, err := statusStore.GetLatestStatusByIDandType(jobID, jobType)
 
@@ -129,7 +135,8 @@ func TestStore_GetLatestStatusByIDandType(t *testing.T) {
 		}
 
 		statusStore := NewStore(db, "status_records")
-		statusStore.Store(status)
+		err := statusStore.Store(status)
+		assert.Nil(t, err)
 
 		latestStatus, err := statusStore.GetLatestStatusByIDandType("job-1234", job.TypeAudit)
 
@@ -188,9 +195,15 @@ func TestStore_GetStatusLogByIDandType(t *testing.T) {
 		}
 
 		statusStore := NewStore(db, "status_records")
-		statusStore.Store(statusFirst)
-		statusStore.Store(statusSecond)
-		statusStore.Store(statusThird)
+
+		err := statusStore.Store(statusFirst)
+		assert.Nil(t, err)
+
+		err = statusStore.Store(statusSecond)
+		assert.Nil(t, err)
+
+		err = statusStore.Store(statusThird)
+		assert.Nil(t, err)
 
 		actualStatus, err := statusStore.GetStatusLogByIDandType(jobID, jobType)
 
@@ -213,7 +226,8 @@ func TestStore_GetStatusLogByIDandType(t *testing.T) {
 		}
 
 		statusStore := NewStore(db, "status_records")
-		statusStore.Store(status)
+		err := statusStore.Store(status)
+		assert.Nil(t, err)
 
 		latestStatus, err := statusStore.GetStatusLogByIDandType("job-1234", jobType)
 
@@ -236,7 +250,8 @@ func TestStore_GetStatusLogByIDandType(t *testing.T) {
 		}
 
 		statusStore := NewStore(db, "status_records")
-		statusStore.Store(status)
+		err := statusStore.Store(status)
+		assert.Nil(t, err)
 
 		latestStatus, err := statusStore.GetStatusLogByIDandType("job-1234", job.TypeAudit)
 

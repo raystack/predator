@@ -92,10 +92,7 @@ func (e *ErrSpecInvalid) Error() string {
 
 func IsSpecInvalidError(err error) bool {
 	var e *ErrSpecInvalid
-	if errors.As(err, &e) {
-		return true
-	}
-	return false
+	return errors.As(err, &e)
 }
 
 type SpecValidator interface {

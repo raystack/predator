@@ -161,6 +161,7 @@ func TestResultStore(t *testing.T) {
 
 			store := NewResultStore(db, "reports")
 			err := store.StoreResults(auditReports)
+			assert.Nil(t, err)
 
 			var reports []*Report
 			db.Find(&reports)

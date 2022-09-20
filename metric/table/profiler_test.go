@@ -467,7 +467,8 @@ func TestTableProfiler(t *testing.T) {
 				queryExecutor.On("Run", testifyMock.Anything, test.Query, job.TableLevelQuery).Return(emptyRows, nil)
 
 				profiler := New(queryExecutor, metadataStore)
-				profiler.Profile(protocol.NewEntry(), test.Profile, test.MetricSpecs)
+				_, err := profiler.Profile(protocol.NewEntry(), test.Profile, test.MetricSpecs)
+				assert.Nil(t, err)
 			})
 		}
 	})

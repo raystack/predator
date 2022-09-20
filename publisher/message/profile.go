@@ -2,7 +2,6 @@ package message
 
 import (
 	"fmt"
-	"github.com/golang/protobuf/ptypes"
 	"github.com/odpf/predator/protocol"
 	"github.com/odpf/predator/protocol/job"
 	"github.com/odpf/predator/protocol/meta"
@@ -60,10 +59,7 @@ func (p *ProfileValueProtoBuilder) Build() (proto.Message, error) {
 }
 
 func profileValueProto(profileJob *job.Profile, metrics []*metric.Metric, spec *meta.TableSpec) (proto.Message, error) {
-	eventTimestampProto, err := ptypes.TimestampProto(profileJob.EventTimestamp)
-	if err != nil {
-		return nil, err
-	}
+	eventTimestampProto := timestamppb.New(profileJob.EventTimestamp)
 	group := &predator.Group{
 		Column: profileJob.GroupName,
 	}

@@ -236,6 +236,7 @@ func TestMetricStore(t *testing.T) {
 
 			store := NewMetricStore(db, "metric_records")
 			err := store.Store(profile, metrics)
+			assert.Nil(t, err)
 
 			result, err := store.GetMetricsByProfileID(profileID)
 

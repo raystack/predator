@@ -191,51 +191,6 @@ func generateUniqueCountMetric(tolerance *protocol.Tolerance) (*metric.Spec, err
 	return uniqueCountMetric, nil
 }
 
-func (b *BasicMetricSpecGenerator) generateSingleFieldMetricSpecs(tableSpec *meta.TableSpec, fieldSpec *meta.FieldSpec, tolerances []*protocol.Tolerance) []*metric.Spec {
-	var specs []*metric.Spec
-
-	countSpec := &metric.Spec{
-		Name:    metric.Count,
-		TableID: tableSpec.TableID(),
-		FieldID: fieldSpec.ID(),
-		Owner:   metric.Field,
-	}
-	specs = append(specs, countSpec)
-
-	nullCountSpec := &metric.Spec{
-		Name:    metric.NullCount,
-		TableID: tableSpec.TableID(),
-		FieldID: fieldSpec.ID(),
-		Owner:   metric.Field,
-	}
-	specs = append(specs, nullCountSpec)
-
-	if fieldSpec.FieldType.IsNumeric() && fieldSpec.Mode != meta.ModeRepeated {
-		sumSpec := &metric.Spec{
-			Name:    metric.Sum,
-			TableID: tableSpec.TableID(),
-			FieldID: fieldSpec.ID(),
-			Owner:   metric.Field,
-		}
-		specs = append(specs, sumSpec)
-	}
-
-	for _, tolerance := range tolerances {
-		if tolerance.FieldID == fieldSpec.ID() && tolerance.MetricName == metric.InvalidPct {
-			invalidCountSpec := &metric.Spec{
-				Name:      metric.InvalidCount,
-				TableID:   tableSpec.TableID(),
-				FieldID:   fieldSpec.ID(),
-				Condition: tolerance.Condition,
-				Owner:     metric.Field,
-			}
-			specs = append(specs, invalidCountSpec)
-		}
-	}
-
-	return specs
-}
-
 type QualityMetricSpecGenerator struct {
 	metadataStore  protocol.MetadataStore
 	toleranceStore protocol.ToleranceStore

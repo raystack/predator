@@ -63,10 +63,7 @@ func (nf *NoFilter) Build() string {
 //Equal implementation
 func (nf *NoFilter) Equal(other FilterClause) bool {
 	_, ok := other.(*NoFilter)
-	if !ok {
-		return false
-	}
-	return true
+	return ok
 }
 
 //AllPartitionFilter is used to select all partition data

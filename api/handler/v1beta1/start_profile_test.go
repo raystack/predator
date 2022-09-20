@@ -29,6 +29,7 @@ func TestStartProfiling(t *testing.T) {
 			}
 
 			auditTime, parseErr := time.Parse(time.RFC3339, request.AuditTime)
+			assert.Nil(t, parseErr)
 
 			profile := &job.Profile{
 				URN:            "sample-project.sample_dataset.sample_table",
@@ -77,9 +78,8 @@ func TestStartProfiling(t *testing.T) {
 			handler.ServeHTTP(res, req)
 
 			result := &model.ProfileResponse{}
-			json.NewDecoder(res.Body).Decode(result)
-
-			assert.Nil(t, parseErr)
+			err := json.NewDecoder(res.Body).Decode(result)
+			assert.Nil(t, err)
 			assert.Equal(t, http.StatusOK, res.Code)
 			assert.Equal(t, response, result)
 		})
@@ -149,8 +149,8 @@ func TestStartProfiling(t *testing.T) {
 			handler.ServeHTTP(res, req)
 
 			result := &model.ProfileResponse{}
-			json.NewDecoder(res.Body).Decode(result)
-
+			err := json.NewDecoder(res.Body).Decode(result)
+			assert.NotNil(t, err)
 			assert.Equal(t, http.StatusBadRequest, res.Code)
 		})
 		t.Run("should return request value is invalid", func(t *testing.T) {
@@ -174,8 +174,8 @@ func TestStartProfiling(t *testing.T) {
 			handler.ServeHTTP(res, req)
 
 			result := &model.ProfileResponse{}
-			json.NewDecoder(res.Body).Decode(result)
-
+			err := json.NewDecoder(res.Body).Decode(result)
+			assert.NotNil(t, err)
 			assert.Equal(t, http.StatusBadRequest, res.Code)
 		})
 	})

@@ -1,7 +1,6 @@
 package message
 
 import (
-	"github.com/golang/protobuf/ptypes"
 	"github.com/odpf/predator/protocol"
 	"github.com/odpf/predator/protocol/job"
 	"github.com/odpf/predator/publisher/proto/odpf/predator/v1beta1"
@@ -65,10 +64,7 @@ func (a *AuditValueProtoBuilder) Build() (proto.Message, error) {
 }
 
 func auditValueProto(auditJob *job.Audit, group *predator.Group, reports []*protocol.AuditReport) (proto.Message, error) {
-	eventTimestampProto, err := ptypes.TimestampProto(auditJob.EventTimestamp)
-	if err != nil {
-		return nil, err
-	}
+	eventTimestampProto := timestamppb.New(auditJob.EventTimestamp)
 	resultLogMessage := &predator.ResultLogMessage{
 		Id:             auditJob.ID,
 		ProfileId:      auditJob.ProfileID,
