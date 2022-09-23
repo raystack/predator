@@ -9,7 +9,7 @@ import (
 	"time"
 )
 
-//DeployConfig config
+//UploadConfig for uploading tolerance files
 type UploadConfig struct {
 	Host       string
 	PathPrefix string

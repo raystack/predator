@@ -1,12 +1,18 @@
-NAME="predator"
+NAME = "github.com/odpf/predator"
 PROTON_COMMIT := "5c0b3bb5df406f2d6ea0f20e2dc41bb89c5cfbe5"
+LAST_COMMIT := $(shell git rev-parse --short HEAD)
+LAST_TAG := "$(shell git rev-list --tags --max-count=1)"
+PREDATOR_VERSION := "$(shell git describe --tags ${LAST_TAG})-next"
 
 .PHONY: build test migrate rollback run cover
 
 all: build
 
 build:
-	go build -o predator ./cmd/predator
+	@echo " > notice: skipped proto generation, use 'generate-proto' make command"
+	@echo " > building predator version ${PREDATOR_VERSION}"
+	@go build -ldflags "-X ${NAME}/conf.BuildVersion=${PREDATOR_VERSION} -X ${NAME}/conf.BuildCommit=${LAST_COMMIT}" -o predator ./cmd
+	@echo " - build complete"
 
 run:
 	./predator
@@ -26,9 +32,6 @@ migrate:
 
 rollback:
 	go run ./cmd/migrator/migration.go down
-
-build-cli:
-	go build -o predatorcli ./cmd/predatorcli
 
 generate-db-resource:
 	@echo " > generating resources"

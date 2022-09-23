@@ -9,8 +9,6 @@
 main
 predator
 !predator/
-predatorcli
-!predatorcli/
 migrate
 
 # Test binary, build with `go test -c`
