@@ -11,7 +11,7 @@ all: build
 build:
 	@echo " > notice: skipped proto generation, use 'generate-proto' make command"
 	@echo " > building predator version ${PREDATOR_VERSION}"
-	@go build -ldflags "-X ${NAME}/conf.BuildVersion=${PREDATOR_VERSION} -X ${NAME}/conf.BuildCommit=${LAST_COMMIT}" -o predator ./cmd
+	@go build -ldflags "-X ${NAME}/conf.BuildVersion=${PREDATOR_VERSION} -X ${NAME}/conf.BuildCommit=${LAST_COMMIT}" -o predator .
 	@echo " - build complete"
 
 run:
@@ -44,3 +44,12 @@ generate-proto:
 
 lint:
 	golangci-lint run --fix
+
+install:
+	@echo "> installing dependencies"
+	go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.47.3
+	go install google.golang.org/protobuf/cmd/protoc-gen-go@v1.28.0
+	go install github.com/bufbuild/buf/cmd/buf@v1.5.0
+	go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.2.0
+	go install github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-grpc-gateway@v2.5.0
+	go install github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-openapiv2@v2.5.0
