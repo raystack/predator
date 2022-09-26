@@ -1,4 +1,4 @@
-FROM golang:1.18-stretch
+FROM alpine:3.13
 
 COPY predator /usr/bin/predator
 WORKDIR /app
