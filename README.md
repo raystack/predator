@@ -150,7 +150,7 @@ Before begin, decide below profiling details.
 
 
 #### How to do Profile and Audit using CLI
-First, build by running `./scripts/dist-build.sh`
+First, build by running `make build`
 
 * To profile and audit
   `profile_audit -s {server} -u {urn} -f {filter} -g {group} -m {mode} -a {audit_time}`
@@ -160,7 +160,7 @@ First, build by running `./scripts/dist-build.sh`
 
 Usage example:
 ```shell
-./dist/predatorcli/darwin-amd64/predatorcli profile_audit \
+predator profile_audit \
 -s http://sample-predator-server \
 -u sample-project.sample_dataset.sample_table \
 -g "date(sample_timestamp_field)" \
@@ -178,7 +178,7 @@ docker run --rm -e SUB_COMMAND=profile_audit \
 -e FILTER="__PARTITION__ = \"2020-11-01\"" \
 -e MODE=complete \
 -e AUDIT_TIME="2020-12-02T07:00:00.000Z" \
-predatorcli:latest
+predator:latest
 ```
 
 ### Local Testing Guide
@@ -320,7 +320,7 @@ Predator also provide cli to provide the same functionality.
       -p, --path-prefix="predator"   path to root of predator specs directory, default will be empty
 ```
 
-* Path Prefix (`--path-prefix`) is path to predator folder root directory on a git repository, fill this value if the directory root is not the same as git root for example in git@sample-url:sample-entity-1.git git repository there are optimus specs, predator is placed under `predator` folder to avoid error on pipeline this is optional, if not filled then the git root directory is used as predator spec root directory
+* Path Prefix (`--path-prefix`) is path to predator folder root directory on a git repository, fill this value if the directory root is not the same as git root. 
     ```yaml
     git_root:
         predator:

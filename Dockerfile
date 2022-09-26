@@ -1,9 +1,6 @@
 FROM golang:1.18-stretch
 
-RUN mkdir /etc/predator
-COPY out /etc/predator
-WORKDIR /etc/predator
+COPY predator /usr/bin/predator
+WORKDIR /app
 
-RUN ln /etc/predator/predator /usr/local/bin/predator
-
-CMD predator
+CMD predator ${SUB_COMMAND} -s ${PREDATOR_URL} -u "${BQ_PROJECT}.${BQ_DATASET}.${BQ_TABLE}"

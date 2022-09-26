@@ -22,10 +22,9 @@ build_executable() {
             # place the executable within that folder
             executable="${TARGET}/$EXECUTABLE_NAME"
             echo $executable
-            GOOS=$os GOARCH=$arch go build -ldflags "$LD_FLAGS" -o $executable $NAME/cmd/$EXECUTABLE_NAME
+            GOOS=$os GOARCH=$arch go build -ldflags "$LD_FLAGS" -o $executable $NAME/cmd
         done
     done
 }
 
 build_executable predator
-build_executable predatorcli

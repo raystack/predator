@@ -24,7 +24,7 @@ type ProfileConfig struct {
 
 func checkProfileFailed(state job.State, message string) {
 	if state == job.StateFailed {
-		log.Fatal(fmt.Sprintf("Profiling failed because: %s", message))
+		log.Fatalf("Profiling failed because: %s", message)
 	}
 }
 

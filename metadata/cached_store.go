@@ -2,7 +2,6 @@ package metadata
 
 import (
 	"errors"
-	"fmt"
 	"github.com/coocood/freecache"
 	gocache "github.com/eko/gocache/cache"
 	"github.com/eko/gocache/store"
@@ -205,7 +204,7 @@ func NewCachedStore(cacheExpirationSeconds int, source protocol.MetadataStore) *
 			return nil, err
 		}
 
-		logger.Println(fmt.Sprintf("load table metadata: %s", urn))
+		logger.Printf("load table metadata: %s", urn)
 		tbl := newTableCache(tableSpec)
 		return msgpack.Marshal(tbl)
 	}
