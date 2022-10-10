@@ -36,34 +36,29 @@ func (b *BasicMetricSpecGenerator) GenerateMetricSpec(urn string) ([]*metric.Spe
 }
 
 func (b *BasicMetricSpecGenerator) Generate(tableSpec *meta.TableSpec, tolerances []*protocol.Tolerance) ([]*metric.Spec, error) {
-	var specs []*metric.Spec
+	metricSpecs := b.generatePreRequisiteMetrics(tableSpec)
 
 	tableSpecs, err := b.generateTableMetricSpecs(tolerances)
 	if err != nil {
 		return nil, err
 	}
-	specs = append(specs, tableSpecs...)
+	metricSpecs = append(metricSpecs, tableSpecs...)
 
 	fieldSpecs := b.generateFieldMetricSpecs(tableSpec, tolerances)
-	specs = append(specs, fieldSpecs...)
+	metricSpecs = append(metricSpecs, fieldSpecs...)
 
-	var upstreamMetricSpecs []*metric.Spec
-	upstreamMetricSpecs = b.generateUpstreamMetrics(tableSpec, specs, upstreamMetricSpecs)
-
-	return append(specs, upstreamMetricSpecs...), nil
+	return metricSpecs, nil
 }
 
-//generateUpstreamMetrics generate any metric that required for the computation of a table metric or field metric
-func (b *BasicMetricSpecGenerator) generateUpstreamMetrics(tableSpec *meta.TableSpec, specs []*metric.Spec, upstreamMetricSpecs []*metric.Spec) []*metric.Spec {
-	if len(specs) > 0 {
-		countMetricSpec := &metric.Spec{
-			Name:    metric.Count,
-			TableID: tableSpec.TableID(),
-			Owner:   metric.Table,
-		}
-		upstreamMetricSpecs = append(upstreamMetricSpecs, countMetricSpec)
+//generatePreRequisiteMetrics generate any metric that required for the computation of a table metric or field metric
+func (b *BasicMetricSpecGenerator) generatePreRequisiteMetrics(tableSpec *meta.TableSpec) []*metric.Spec {
+	var specs []*metric.Spec
+	countMetricSpec := &metric.Spec{
+		Name:    metric.Count,
+		TableID: tableSpec.TableID(),
+		Owner:   metric.Table,
 	}
-	return upstreamMetricSpecs
+	return append(specs, countMetricSpec)
 }
 
 func (b *BasicMetricSpecGenerator) generateTableMetricSpecs(tolerances []*protocol.Tolerance) ([]*metric.Spec, error) {
