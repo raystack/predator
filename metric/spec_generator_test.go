@@ -20,6 +20,10 @@ func TestMetricSpecGenerator(t *testing.T) {
 		Comparator: protocol.ComparatorLessThanEq,
 		Value:      0.0,
 	}
+	moreThanZeroRule := protocol.ToleranceRule{
+		Comparator: protocol.ComparatorMoreThan,
+		Value:      0.0,
+	}
 	uniqueFields := []string{"unique_field"}
 	duplicationTolerance := &protocol.Tolerance{
 		TableURN:       tableID,
@@ -28,6 +32,11 @@ func TestMetricSpecGenerator(t *testing.T) {
 		Metadata: map[string]interface{}{
 			metric.UniqueFields: uniqueFields,
 		},
+	}
+	rowCountTolerance := &protocol.Tolerance{
+		TableURN:       tableID,
+		MetricName:     metric.RowCount,
+		ToleranceRules: []protocol.ToleranceRule{moreThanZeroRule},
 	}
 	tableCondition := "field1 - field2 - field3 != 0"
 	tableInvalidityTolerance := &protocol.Tolerance{
@@ -63,12 +72,51 @@ func TestMetricSpecGenerator(t *testing.T) {
 				expectedSpecs := []*metric.Spec{
 					{
 						TableID: tableID,
+						Name:    metric.Count,
+						Owner:   metric.Table,
+					},
+					{
+						TableID: tableID,
 						Name:    metric.UniqueCount,
 						Owner:   metric.Table,
 						Metadata: map[string]interface{}{
 							metric.UniqueFields: uniqueFields,
 						},
 					},
+				}
+
+				gen := BasicMetricSpecGenerator{
+					metadataStore:  metadataStore,
+					toleranceStore: toleranceStore,
+				}
+				actualSpecs, err := gen.GenerateMetricSpec(tableSpec.TableID())
+
+				assert.Nil(t, err)
+				assert.Equal(t, expectedSpecs, actualSpecs)
+
+			})
+			t.Run("should return at least a pre-requisite metric", func(t *testing.T) {
+				tableSpec := &meta.TableSpec{
+					ProjectName: projectName,
+					DatasetName: datasetName,
+					TableName:   tableName,
+					Fields:      []*meta.FieldSpec{},
+				}
+				tolerances := []*protocol.Tolerance{rowCountTolerance}
+				toleranceSpec := &protocol.ToleranceSpec{
+					URN:        tableSpec.TableID(),
+					Tolerances: tolerances,
+				}
+
+				metadataStore := mock.NewMetadataStore()
+				metadataStore.On("GetMetadata", tableSpec.TableID()).Return(tableSpec, nil)
+				defer metadataStore.AssertExpectations(t)
+
+				toleranceStore := mock.NewToleranceStore()
+				toleranceStore.On("GetByTableID", tableSpec.TableID()).Return(toleranceSpec, nil)
+				defer toleranceStore.AssertExpectations(t)
+
+				expectedSpecs := []*metric.Spec{
 					{
 						TableID: tableID,
 						Name:    metric.Count,
@@ -157,6 +205,11 @@ func TestMetricSpecGenerator(t *testing.T) {
 				expectedSpecs := []*metric.Spec{
 					{
 						TableID: tableID,
+						Name:    metric.Count,
+						Owner:   metric.Table,
+					},
+					{
+						TableID: tableID,
 						Name:    metric.UniqueCount,
 						Owner:   metric.Table,
 						Metadata: map[string]interface{}{
@@ -168,11 +221,6 @@ func TestMetricSpecGenerator(t *testing.T) {
 						Name:      metric.InvalidCount,
 						Condition: tableCondition,
 						Owner:     metric.Table,
-					},
-					{
-						TableID: tableID,
-						Name:    metric.Count,
-						Owner:   metric.Table,
 					},
 				}
 
