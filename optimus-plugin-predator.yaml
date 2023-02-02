@@ -1,0 +1,37 @@
+name: predator
+description: Auditing and Profiling Tool for BigQuery
+plugintype: hook
+pluginversion: 0.1.1
+image: docker.io/odpf/predator:0.1.1
+hooktype: post
+questions:
+  - name: FILTER
+    prompt: Filter expression for extracting transformation rows?
+    help: "for example: \nDATE(event_timestamp) >= \"{{ .DSTART|Date }}\" AND DATE(event_timestamp)
+    < \"{{ .DEND|Date }}\"\n"
+    required: false
+  - name: GROUP
+    prompt: Specify the profile/audit result grouping field (empty to not group the
+      result)
+    help: 'for example: __PARTITION__'
+    required: false
+  - name: MODE
+    prompt: Choose the profiling mode
+    default: complete
+    multiselect:
+      - complete
+      - incremental
+    required: true
+defaultconfig:
+  - name: BQ_PROJECT
+    value: '{{.TASK__PROJECT}}'
+  - name: BQ_DATASET
+    value: '{{.TASK__DATASET}}'
+  - name: BQ_TABLE
+    value: '{{.TASK__TABLE}}'
+  - name: AUDIT_TIME
+    value: '{{.EXECUTION_TIME}}'
+  - name: PREDATOR_URL
+    value: '{{.GLOBAL__PREDATOR_HOST}}'
+  - name: SUB_COMMAND
+    value: profile_audit
