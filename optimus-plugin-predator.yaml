@@ -1,8 +1,8 @@
 name: predator
 description: Auditing and Profiling Tool for BigQuery
 plugintype: hook
-pluginversion: '{{.version}}'
-image: docker.io/odpf/predator:0.1.0
+pluginversion: 0.1.1
+image: docker.io/odpf/predator:0.1.1
 hooktype: post
 questions:
   - name: FILTER
