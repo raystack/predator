@@ -3,7 +3,8 @@ description: Auditing and Profiling Tool for BigQuery
 plugintype: hook
 pluginversion: 0.1.1
 image: docker.io/odpf/predator:0.1.1
-entrypoint: 'predator ${SUB_COMMAND} -s ${PREDATOR_URL} -u "${BQ_PROJECT}.${BQ_DATASET}.${BQ_TABLE}"'
+entrypoint:
+  script: 'predator ${SUB_COMMAND} -s ${PREDATOR_URL} -u "${BQ_PROJECT}.${BQ_DATASET}.${BQ_TABLE}"'
 hooktype: post
 questions:
   - name: FILTER
